@@ -64,7 +64,10 @@ def gewinnrechner(
     }
 
 
-st.title("Tinten-Gewinnrechner – Fokus auf Traum- & Sternentinte")
+tab1, tab2 = st.tabs(["Tinten", "Geistereisenbolzen"])
+
+with tab1:
+    st.title("Tinten-Gewinnrechner – Fokus auf Traum- & Sternentinte")
 
 with st.form("input_form"):
     einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0)
@@ -105,8 +108,8 @@ if submitted:
     st.markdown(f"**Traumtinte Umsatz (Wunschpreis):** {result['Traumtinte Umsatz (Wunschpreis)']} G")
     st.markdown("**Gewinn Traumtinte (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{result['Gewinn Traumtinte (Wunschpreis)']} G</span>" if result['Gewinn Traumtinte (Wunschpreis)'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['Gewinn Traumtinte (Wunschpreis)']} G</span>"), unsafe_allow_html=True)
     st.markdown(f"**Sternentinte Umsatz (Wunschpreis):** {result['Sternentinte Umsatz (Wunschpreis)']} G")
-    st.markdown("**Gewinn Sternentinte (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{result['Gewinn Sternentinte (Wunschpreis)']} G</span>" if result['Gewinn Sternentinte (Wunschpreis)'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['Gewinn Sternentinte (Wunschpreis)']} G</span>"), unsafe_allow_html=True)
     st.markdown("**Gesamtgewinn (Wunschpreise):** " + (f"<span style='color:green;font-weight:bold;'>{result['Gesamtgewinn (Wunschpreise)']} G</span>" if result['Gesamtgewinn (Wunschpreise)'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['Gesamtgewinn (Wunschpreise)']} G</span>"), unsafe_allow_html=True)
+    st.markdown("**Gewinn Sternentinte (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{result['Gewinn Sternentinte (Wunschpreis)']} G</span>" if result['Gewinn Sternentinte (Wunschpreis)'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['Gewinn Sternentinte (Wunschpreis)']} G</span>"), unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown(f"**🔁 Tauschgrenze aktuell:** {result['Tauschgrenze aktuell']} G")
@@ -115,3 +118,30 @@ if submitted:
     st.markdown("**📉 Tauschbewertung:**")
     st.markdown(f"Aktueller Preis ({traumtinte_preis} G): {'✅ Ja' if result['Tausch lohnt sich aktuell'] else '❌ Nein'}")
     st.markdown(f"Wunschpreis ({traumtinte_preis_wunsch} G): {'✅ Ja' if result['Tausch lohnt sich bei Wunschpreis'] else '❌ Nein'}")
+
+
+with tab2:
+    st.title("Geistereisenbolzen Rechner")
+
+    with st.form("bolzen_form"):
+        barren_einkaufspreis = st.number_input("🛒 Einkaufspreis pro Geistereisenbarren", value=0.0, format="%.2f")
+        bolzen_marktpreis = st.number_input("💰 Aktueller Verkaufspreis pro Bolzen", value=0.0, format="%.2f")
+        bolzen_wunschpreis = st.number_input("⭐ Wunschpreis pro Bolzen", value=0.0, format="%.2f")
+        bolzen_menge = st.number_input("🔧 Geplante Anzahl Bolzen, die du herstellen willst", value=0, step=1)
+        submit_bolzen = st.form_submit_button("Bolzen-Kalkulation starten")
+
+    if submit_bolzen:
+        # 3 Barren = 2 Bolzen → 1 Bolzen = 1.5 Barren
+        barren_pro_bolzen = 1.5
+        gesamtkosten = bolzen_menge * barren_pro_bolzen * barren_einkaufspreis
+        umsatz_aktuell = bolzen_menge * bolzen_marktpreis
+        umsatz_wunsch = bolzen_menge * bolzen_wunschpreis
+        gewinn_aktuell = round(umsatz_aktuell - gesamtkosten, 2)
+        gewinn_wunsch = round(umsatz_wunsch - gesamtkosten, 2)
+
+        st.subheader("📦 Geistereisenbolzen Auswertung")
+        st.markdown(f"**Gesamtkosten:** {gesamtkosten:.2f} G")
+        st.markdown(f"**Umsatz (Marktpreis):** {umsatz_aktuell:.2f} G")
+        st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_aktuell} G</span>" if gewinn_aktuell >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_aktuell} G</span>"), unsafe_allow_html=True)
+        st.markdown(f"**Umsatz (Wunschpreis):** {umsatz_wunsch:.2f} G")
+        st.markdown("**Gewinn (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_wunsch} G</span>" if gewinn_wunsch >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_wunsch} G</span>"), unsafe_allow_html=True)
