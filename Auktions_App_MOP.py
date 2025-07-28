@@ -65,7 +65,7 @@ tab1, tab2 = st.tabs(["Tinten", "Geistereisenbolzen"])
 with tab1:
     st.title("Tinten-Gewinnrechner – Fokus auf Traum- & Sternentinte")
 
-    # Daten automatisch abrufen (z. B. aus Blizzard-API) – hier nur Beispiel mit statischen Werten
+    # Daten automatisch abrufen (z. B. aus TSM API)
     def fetch_live_prices():
         import requests
 
@@ -96,49 +96,6 @@ with tab1:
                 prices[name] = 0.0
 
         return prices
-
-            token = token_resp.json().get("access_token")
-            if not token:
-                st.warning("⚠️ Kein Token enthalten in der Blizzard-Antwort.")
-                return {"traumtinte": 0.0, "sternentinte": 0.0}
-
-            realm_id = 4701  # Everlook EU
-            item_ids = {
-                "traumtinte": 43116,
-                "sternentinte": 43122,
-                "geistererz": 72092,
-                "geisterbarren": 72096
-            }
-
-            auction_url = f"https://eu.api.blizzard.com/data/wow/connected-realm/{realm_id}/auctions"
-            params = {
-                "namespace": "dynamic-classic-eu",
-                "locale": "de_DE",
-                "access_token": token
-            }
-
-            auction_resp = requests.get(auction_url, params=params, timeout=15)
-            if auction_resp.status_code != 200:
-                st.warning("⚠️ Konnte keine Auktionsdaten laden.")
-                return {"traumtinte": 0.0, "sternentinte": 0.0}
-
-            data = auction_resp.json()
-            auctions = data.get("auctions", [])
-
-            def get_price(item_id):
-                matching = [a for a in auctions if a.get("item", {}).get("id") == item_id and "unit_price" in a]
-                return round(min(a["unit_price"] for a in matching) / 10000, 2) if matching else 0.0
-
-            return {
-                "traumtinte": get_price(item_ids["traumtinte"]),
-                "sternentinte": get_price(item_ids["sternentinte"]),
-                "geistererz": get_price(item_ids["geistererz"]),
-                "geisterbarren": get_price(item_ids["geisterbarren"])
-            }
-
-        except Exception as e:
-            st.error(f"❌ Fehler beim Abrufen der Blizzard-Daten: {e}")
-            return {"traumtinte": 0.0, "sternentinte": 0.0}
 
     live_preise = fetch_live_prices()
 
@@ -191,68 +148,3 @@ with tab1:
         st.markdown("**📉 Tauschbewertung:**")
         st.markdown(f"Aktueller Preis ({traumtinte_preis} G): {'✅ Ja' if result['Tausch lohnt sich aktuell'] else '❌ Nein'}")
         st.markdown(f"Wunschpreis ({traumtinte_preis_wunsch} G): {'✅ Ja' if result['Tausch lohnt sich bei Wunschpreis'] else '❌ Nein'}")
-
-
-with tab2:
-    st.title("Geistereisenbolzen Rechner")
-
-    with st.form("bolzen_form"):
-        erz_preis = st.number_input("💎 Aktueller Preis pro Geistererz", value=live_preise.get("geistererz", 0.0), format="%.2f")
-        barren_kaufpreis = st.number_input("🪙 Kaufpreis pro Geistereisenbarren", value=live_preise.get("geisterbarren", 0.0), format="%.2f")
-        # Hinweis: effektiver_barrenpreis wird nicht mehr verwendet, beide Varianten werden separat ausgewertet
-        bolzen_marktpreis = st.number_input("💰 Aktueller Verkaufspreis pro Bolzen", value=0.0, format="%.2f")
-        bolzen_wunschpreis = st.number_input("⭐ Wunschpreis pro Bolzen", value=0.0, format="%.2f")
-        bolzen_menge = st.number_input("🔧 Geplante Anzahl Bolzen, die du herstellen willst", value=0, step=1)
-        submit_bolzen = st.form_submit_button("Bolzen-Kalkulation starten")
-
-    if submit_bolzen:
-        barren_pro_bolzen = 1.5
-        menge_erforderlich = bolzen_menge * barren_pro_bolzen
-
-        # Aufrunden der Mengen
-        import math
-        menge_erforderlich_barren = math.ceil(menge_erforderlich / 3) * 3
-        menge_erforderlich_erz = math.ceil((menge_erforderlich * 2) / 2) * 2
-
-        # Variante 1: Barren
-        kosten_barren = menge_erforderlich_barren * barren_kaufpreis
-        umsatz_aktuell_barren = bolzen_menge * bolzen_marktpreis
-        umsatz_wunsch_barren = bolzen_menge * bolzen_wunschpreis
-        gewinn_aktuell_barren = round(umsatz_aktuell_barren - kosten_barren, 2)
-        gewinn_wunsch_barren = round(umsatz_wunsch_barren - kosten_barren, 2)
-
-        # Variante 2: Erz
-        barren_aus_erz = menge_erforderlich_erz / 2
-        benoetigte_erz = menge_erforderlich_erz
-        kosten_erz = benoetigte_erz * erz_preis
-        umsatz_aktuell_erz = bolzen_menge * bolzen_marktpreis
-        umsatz_wunsch_erz = bolzen_menge * bolzen_wunschpreis
-        gewinn_aktuell_erz = round(umsatz_aktuell_erz - kosten_erz, 2)
-        gewinn_wunsch_erz = round(umsatz_wunsch_erz - kosten_erz, 2)
-
-        st.subheader("📦 Geistereisenbolzen Auswertung")
-        st.markdown("Hier siehst du beide Varianten im Vergleich. Keine automatische Auswahl – du entscheidest!")
-        # Variante 1: Barren
-        df_barren = pd.DataFrame({
-            'Art': ['🪙 Barren'],
-            'Gesamtkosten (G)': [kosten_barren],
-            'Umsatz (Marktpreis)': [umsatz_aktuell_barren],
-            'Gewinn (Marktpreis)': [gewinn_aktuell_barren],
-            'Umsatz (Wunschpreis)': [umsatz_wunsch_barren],
-            'Gewinn (Wunschpreis)': [gewinn_wunsch_barren]
-        }).round(2)
-
-        # Variante 2: Erz
-        df_erz = pd.DataFrame({
-            'Art': ['💎 Erz'],
-            'Gesamtkosten (G)': [kosten_erz],
-            'Umsatz (Marktpreis)': [umsatz_aktuell_erz],
-            'Gewinn (Marktpreis)': [gewinn_aktuell_erz],
-            'Umsatz (Wunschpreis)': [umsatz_wunsch_erz],
-            'Gewinn (Wunschpreis)': [gewinn_wunsch_erz]
-        }).round(2)
-
-        st.markdown("### 🪙 Barren")
-        st.dataframe(df_barren, use_container_width=True)
-        st.markdown("### 💎 Erz")
-        st.dataframe(df_erz, use_container_width=True)
