@@ -69,19 +69,33 @@ with tab1:
     def fetch_live_prices():
         import requests
 
-        client_id = "2321704124584f26b80892a37181f35b"
-        client_secret = "mEaPDzpcOAADtxbiyfdVEeALXF4qmmoz"
+        TSM_API_KEY = "26c121e4-aa03-4f07-a27a-9460b81d81c1"
+        region = "eu"
+        realm = "everlook"
+        item_slugs = {
+            "traumtinte": "ink-of-the-dream",
+            "sternentinte": "starlight-ink",
+            "geistererz": "ghost-iron-ore",
+            "geisterbarren": "ghost-iron-bar"
+        }
 
-        try:
-            token_resp = requests.post(
-                "https://oauth.battle.net/token",
-                data={"grant_type": "client_credentials"},
-                auth=(client_id, client_secret),
-                timeout=10
-            )
-            if token_resp.status_code != 200:
-                st.warning("⚠️ Konnte keinen Blizzard-Token erhalten.")
-                return {"traumtinte": 0.0, "sternentinte": 0.0}
+        headers = {"X-TOKEN": TSM_API_KEY}
+        base_url = f"https://api.tradeskillmaster.com/v1/item/{region}/{realm}"
+
+        prices = {}
+        for name, slug in item_slugs.items():
+            try:
+                response = requests.get(f"{base_url}/{slug}", headers=headers, timeout=10)
+                if response.status_code == 200:
+                    data = response.json()
+                    prices[name] = round(data.get("marketValue", 0) / 10000, 2)
+                else:
+                    prices[name] = 0.0
+            except Exception as e:
+                st.warning(f"⚠️ Fehler beim Abrufen von {name}: {e}")
+                prices[name] = 0.0
+
+        return prices
 
             token = token_resp.json().get("access_token")
             if not token:
@@ -91,7 +105,9 @@ with tab1:
             realm_id = 4701  # Everlook EU
             item_ids = {
                 "traumtinte": 43116,
-                "sternentinte": 43122
+                "sternentinte": 43122,
+                "geistererz": 72092,
+                "geisterbarren": 72096
             }
 
             auction_url = f"https://eu.api.blizzard.com/data/wow/connected-realm/{realm_id}/auctions"
@@ -115,7 +131,9 @@ with tab1:
 
             return {
                 "traumtinte": get_price(item_ids["traumtinte"]),
-                "sternentinte": get_price(item_ids["sternentinte"])
+                "sternentinte": get_price(item_ids["sternentinte"]),
+                "geistererz": get_price(item_ids["geistererz"]),
+                "geisterbarren": get_price(item_ids["geisterbarren"])
             }
 
         except Exception as e:
@@ -179,8 +197,8 @@ with tab2:
     st.title("Geistereisenbolzen Rechner")
 
     with st.form("bolzen_form"):
-        erz_preis = st.number_input("💎 Aktueller Preis pro Geistererz", value=0.0, format="%.2f")
-        barren_kaufpreis = st.number_input("🪙 Kaufpreis pro Geistereisenbarren", value=0.0, format="%.2f")
+        erz_preis = st.number_input("💎 Aktueller Preis pro Geistererz", value=live_preise.get("geistererz", 0.0), format="%.2f")
+        barren_kaufpreis = st.number_input("🪙 Kaufpreis pro Geistereisenbarren", value=live_preise.get("geisterbarren", 0.0), format="%.2f")
         # Hinweis: effektiver_barrenpreis wird nicht mehr verwendet, beide Varianten werden separat ausgewertet
         bolzen_marktpreis = st.number_input("💰 Aktueller Verkaufspreis pro Bolzen", value=0.0, format="%.2f")
         bolzen_wunschpreis = st.number_input("⭐ Wunschpreis pro Bolzen", value=0.0, format="%.2f")
