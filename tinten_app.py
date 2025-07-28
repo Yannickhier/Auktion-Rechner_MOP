@@ -43,24 +43,24 @@ def gewinnrechner(
     gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
     gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
 
-    return {
-    "Gesamtgewinn (aktuelle Preise)": gesamt_gewinn_aktuell,
-    "Gesamtgewinn (Wunschpreise)": gesamt_gewinn_wunsch,
-    "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
-    "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
-    "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
-    "Tauschgrenze Wunschpreis": round(break_even_traumtinte_preis_wunsch, 2),
-    "Einkaufspreis insgesamt": einkaufspreis,
-    "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
-    "Zugewiesen an Sternentinte": round(kosten_sternentinte, 2),
-    "Traumtinte Umsatz": traumtinte_umsatz,
-    "Gewinn mit direktem Verkauf von Traumtinte": round(gewinn_traumtinte, 2),
-    "Sternentinte Umsatz": sternentinte_umsatz,
-    "Gewinn bei Herstellung und Verkauf von Sternentinte": round(gewinn_sternentinte, 2),
-    "Traumtinte Umsatz (Wunschpreis)": traumtinte_umsatz_wunsch,
-    "Gewinn Traumtinte (Wunschpreis)": round(gewinn_traumtinte_wunsch, 2),
-    "Sternentinte Umsatz (Wunschpreis)": sternentinte_umsatz_wunsch,
-    "Gewinn Sternentinte (Wunschpreis)": round(gewinn_sternentinte_wunsch, 2)
+        return {
+        "Gesamtgewinn (aktuelle Preise)": gesamt_gewinn_aktuell,
+        "Gesamtgewinn (Wunschpreise)": gesamt_gewinn_wunsch,
+        "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
+        "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
+        "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
+        "Tauschgrenze Wunschpreis": round(break_even_traumtinte_preis_wunsch, 2),
+        "Einkaufspreis insgesamt": einkaufspreis,
+        "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
+        "Zugewiesen an Sternentinte": round(kosten_sternentinte, 2),
+        "Traumtinte Umsatz": traumtinte_umsatz,
+        "Gewinn mit direktem Verkauf von Traumtinte": round(gewinn_traumtinte, 2),
+        "Sternentinte Umsatz": sternentinte_umsatz,
+        "Gewinn bei Herstellung und Verkauf von Sternentinte": round(gewinn_sternentinte, 2),
+        "Traumtinte Umsatz (Wunschpreis)": traumtinte_umsatz_wunsch,
+        "Gewinn Traumtinte (Wunschpreis)": round(gewinn_traumtinte_wunsch, 2),
+        "Sternentinte Umsatz (Wunschpreis)": sternentinte_umsatz_wunsch,
+        "Gewinn Sternentinte (Wunschpreis)": round(gewinn_sternentinte_wunsch, 2)
     }
 
 
@@ -98,14 +98,14 @@ if submitted:
     st.markdown(f"**Sternentinte Umsatz:** {result['Sternentinte Umsatz']} G")
     st.markdown("**Gewinn bei Herstellung und Verkauf von Sternentinte:** " + (f"<span style='color:green;font-weight:bold;'>{result['Gewinn bei Herstellung und Verkauf von Sternentinte']} G</span>" if result['Gewinn bei Herstellung und Verkauf von Sternentinte'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['Gewinn bei Herstellung und Verkauf von Sternentinte']} G</span>"), unsafe_allow_html=True)
 
-    st.markdown("**Gesamtgewinn (aktuelle Preise):** " + (f"<span style='color:green;font-weight:bold;'>{result['gesamt_gewinn_aktuell']} G</span>" if result['gesamt_gewinn_aktuell'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['gesamt_gewinn_aktuell']} G</span>"), unsafe_allow_html=True)
+    st.markdown("**Gesamtgewinn (aktuelle Preise):** " + (f"<span style='color:green;font-weight:bold;'>{result['Gesamtgewinn (aktuelle Preise)']} G</span>" if result['gesamt_gewinn_aktuell'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['gesamt_gewinn_aktuell']} G</span>"), unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown("### 🌟 Wunschpreise (zukünftiger Marktwert)")
     st.markdown(f"**Traumtinte Umsatz (Wunschpreis):** {result['Traumtinte Umsatz (Wunschpreis)']} G")
     st.markdown("**Gewinn Traumtinte (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{result['Gewinn Traumtinte (Wunschpreis)']} G</span>" if result['Gewinn Traumtinte (Wunschpreis)'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['Gewinn Traumtinte (Wunschpreis)']} G</span>"), unsafe_allow_html=True)
     st.markdown(f"**Sternentinte Umsatz (Wunschpreis):** {result['Sternentinte Umsatz (Wunschpreis)']} G")
-    st.markdown("**Gesamtgewinn (Wunschpreise):** " + (f"<span style='color:green;font-weight:bold;'>{result['gesamt_gewinn_wunsch']} G</span>" if result['gesamt_gewinn_wunsch'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['gesamt_gewinn_wunsch']} G</span>"), unsafe_allow_html=True)
+    st.markdown("**Gesamtgewinn (Wunschpreise):** " + (f"<span style='color:green;font-weight:bold;'>{result['Gesamtgewinn (Wunschpreise)']} G</span>" if result['gesamt_gewinn_wunsch'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['gesamt_gewinn_wunsch']} G</span>"), unsafe_allow_html=True)
     st.markdown("**Gewinn Sternentinte (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{result['Gewinn Sternentinte (Wunschpreis)']} G</span>" if result['Gewinn Sternentinte (Wunschpreis)'] >= 0 else f"<span style='color:red;font-weight:bold;'>{result['Gewinn Sternentinte (Wunschpreis)']} G</span>"), unsafe_allow_html=True)
 
     st.markdown("---")
