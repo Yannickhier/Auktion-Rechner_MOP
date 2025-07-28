@@ -120,7 +120,7 @@ with tab2:
     with st.form("bolzen_form"):
         erz_preis = st.number_input("💎 Aktueller Preis pro Geistererz", value=0.0, format="%.2f")
         barren_kaufpreis = st.number_input("🪙 Kaufpreis pro Geistereisenbarren", value=0.0, format="%.2f")
-        effektiver_barrenpreis = min(barren_kaufpreis, erz_preis * 2)
+        # Hinweis: effektiver_barrenpreis wird nicht mehr verwendet, beide Varianten werden separat ausgewertet
         bolzen_marktpreis = st.number_input("💰 Aktueller Verkaufspreis pro Bolzen", value=0.0, format="%.2f")
         bolzen_wunschpreis = st.number_input("⭐ Wunschpreis pro Bolzen", value=0.0, format="%.2f")
         bolzen_menge = st.number_input("🔧 Geplante Anzahl Bolzen, die du herstellen willst", value=0, step=1)
@@ -147,6 +147,7 @@ with tab2:
         gewinn_wunsch_erz = round(umsatz_wunsch_erz - kosten_erz, 2)
 
         st.subheader("📦 Geistereisenbolzen Auswertung")
+st.markdown("Hier siehst du beide Varianten im Vergleich. Keine automatische Auswahl – du entscheidest!")
         col1, col2 = st.columns(2)
 
         with col1:
