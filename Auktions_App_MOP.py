@@ -187,5 +187,3 @@ with tab2:
 
         st.subheader("📦 Geistereisenbolzen Auswertung")
         st.dataframe(df.style.format("{:.2f}"))
-        st.markdown(f"Aktueller Preis ({traumtinte_preis} G): {'✅ Ja' if result['Tausch lohnt sich aktuell'] else '❌ Nein'}")
-        st.markdown(f"Wunschpreis ({traumtinte_preis_wunsch} G): {'✅ Ja' if result['Tausch lohnt sich bei Wunschpreis'] else '❌ Nein'}")
