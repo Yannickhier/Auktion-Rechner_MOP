@@ -35,6 +35,9 @@ def gewinnrechner(
     # Ab welchem Traumtinte-Preis lohnt sich der Tausch nicht mehr
     break_even_traumtinte_preis = sternentinte_preis / 10
 
+        tausch_lohnt_aktuell = traumtinte_preis < break_even_traumtinte_preis
+    tausch_lohnt_wunsch = traumtinte_preis_wunsch < break_even_traumtinte_preis
+
     return {
         "Einkaufspreis insgesamt": einkaufspreis,
         "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
@@ -93,4 +96,9 @@ if submitted:
     st.markdown(f"**Gewinn Sternentinte (Wunschpreis):** {result['Gewinn Sternentinte (Wunschpreis)']} G")
 
     st.markdown("---")
-    st.markdown(f"**🔁 Tausch lohnt sich, wenn Traumtinte unter:** {result['Tausch lohnt sich, wenn Traumtinte unter']} G")
+        st.markdown(f"**🔁 Tausch lohnt sich, wenn Traumtinte unter:** {result['Tausch lohnt sich, wenn Traumtinte unter']} G")
+
+    if result['Tausch lohnt sich, wenn Traumtinte unter'] > 0:
+        st.markdown("**📉 Aktueller Preisvergleich:**")
+        st.markdown(f"Aktueller Preis: {traumtinte_preis} G – {'✅ Tausch lohnt sich' if traumtinte_preis < result['Tausch lohnt sich, wenn Traumtinte unter'] else '❌ Kein Tausch nötig'}")
+        st.markdown(f"Wunschpreis: {traumtinte_preis_wunsch} G – {'✅ Tausch lohnt sich' if traumtinte_preis_wunsch < result['Tausch lohnt sich, wenn Traumtinte unter'] else '❌ Kein Tausch nötig'}")
