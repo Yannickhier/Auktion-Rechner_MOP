@@ -139,8 +139,11 @@ with tab2:
 
     st.markdown("---")
 
-    with st.form("bolzen_form"):
-        barren_einkaufspreis = st.number_input("🛒 Einkaufspreis pro Geistereisenbarren", value=0.0, format="%.2f")
+        with st.form("bolzen_form"):
+        erz_preis = st.number_input("💎 Aktueller Preis pro Geistererz", value=0.0, format="%.2f")
+        barren_kaufpreis = st.number_input("🪙 Kaufpreis pro Geistereisenbarren", value=0.0, format="%.2f")
+        effektiver_barrenpreis = min(barren_kaufpreis, erz_preis * 2)
+        # ersetzt durch berechneten effektiven_barrenpreis
         bolzen_marktpreis = st.number_input("💰 Aktueller Verkaufspreis pro Bolzen", value=0.0, format="%.2f")
         bolzen_wunschpreis = st.number_input("⭐ Wunschpreis pro Bolzen", value=0.0, format="%.2f")
         bolzen_menge = st.number_input("🔧 Geplante Anzahl Bolzen, die du herstellen willst", value=0, step=1)
@@ -149,7 +152,7 @@ with tab2:
     if submit_bolzen:
         # 3 Barren = 2 Bolzen → 1 Bolzen = 1.5 Barren
         barren_pro_bolzen = 1.5
-        gesamtkosten = bolzen_menge * barren_pro_bolzen * barren_einkaufspreis
+        gesamtkosten = bolzen_menge * barren_pro_bolzen * effektiver_barrenpreis
         umsatz_aktuell = bolzen_menge * bolzen_marktpreis
         umsatz_wunsch = bolzen_menge * bolzen_wunschpreis
         gewinn_aktuell = round(umsatz_aktuell - gesamtkosten, 2)
