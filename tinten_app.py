@@ -10,29 +10,24 @@ def gewinnrechner(
     traumtinte_preis_wunsch: float,
     sternentinte_preis_wunsch: float
 ):
-    # Aufteilung Einkaufspreis
     gesamte_tinten = traumtinte_menge + sternentinte_menge if (traumtinte_menge + sternentinte_menge) > 0 else 1
     anteil_traum = traumtinte_menge / gesamte_tinten
     anteil_stern = sternentinte_menge / gesamte_tinten
     kosten_traumtinte = einkaufspreis * anteil_traum
     kosten_sternentinte = einkaufspreis * anteil_stern
 
-    # Rechenweg Traumtinte
     traumtinte_umsatz = traumtinte_menge * traumtinte_preis
     gewinn_traumtinte = traumtinte_umsatz - kosten_traumtinte
 
-    # Rechenweg Sternentinte
     sternentinte_umsatz = sternentinte_menge * sternentinte_preis
     gewinn_sternentinte = sternentinte_umsatz - kosten_sternentinte
 
-    # Rechenweg mit Wunschpreisen
     traumtinte_umsatz_wunsch = traumtinte_menge * traumtinte_preis_wunsch
     gewinn_traumtinte_wunsch = traumtinte_umsatz_wunsch - kosten_traumtinte
 
     sternentinte_umsatz_wunsch = sternentinte_menge * sternentinte_preis_wunsch
     gewinn_sternentinte_wunsch = sternentinte_umsatz_wunsch - kosten_sternentinte
 
-    # Ab welchem Traumtinte-Preis lohnt sich der Tausch nicht mehr
     gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
     gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
     break_even_traumtinte_preis_aktuell = sternentinte_preis / 10
@@ -59,9 +54,6 @@ def gewinnrechner(
         "Sternentinte Umsatz (Wunschpreis)": sternentinte_umsatz_wunsch,
         "Gewinn Sternentinte (Wunschpreis)": round(gewinn_sternentinte_wunsch, 2)
     }
-
-
-
 
 
 
@@ -123,34 +115,16 @@ with tab1:
 with tab2:
     st.title("Geistereisenbolzen Rechner")
 
-    st.markdown("---")
-    st.subheader("🪨 Geistererz-Kalkulation")
-    with st.form("erz_form"):
-        erz_preis = st.number_input("💎 Aktueller Preis pro Geistererz", value=0.0, format="%.2f")
-        barren_kaufpreis = st.number_input("🪙 Kaufpreis pro Geistereisenbarren", value=0.0, format="%.2f")
-        submit_erz = st.form_submit_button("Erz-Bewertung starten")
-
-    if submit_erz:
-        max_erz_preis = barren_kaufpreis / 2
-        tausch_empfehlung = erz_preis <= max_erz_preis
-
-        st.markdown(f"**Maximalpreis für Geistererz:** {max_erz_preis:.2f} G")
-        st.markdown("**Erz kaufen oder Barren kaufen?** " + ("<span style='color:green;font-weight:bold;'>Erz lohnt sich ✅</span>" if tausch_empfehlung else "<span style='color:red;font-weight:bold;'>Lieber Barren kaufen ❌</span>"), unsafe_allow_html=True)
-
-    st.markdown("---")
-
-        with st.form("bolzen_form"):
+    with st.form("bolzen_form"):
         erz_preis = st.number_input("💎 Aktueller Preis pro Geistererz", value=0.0, format="%.2f")
         barren_kaufpreis = st.number_input("🪙 Kaufpreis pro Geistereisenbarren", value=0.0, format="%.2f")
         effektiver_barrenpreis = min(barren_kaufpreis, erz_preis * 2)
-        # ersetzt durch berechneten effektiven_barrenpreis
         bolzen_marktpreis = st.number_input("💰 Aktueller Verkaufspreis pro Bolzen", value=0.0, format="%.2f")
         bolzen_wunschpreis = st.number_input("⭐ Wunschpreis pro Bolzen", value=0.0, format="%.2f")
         bolzen_menge = st.number_input("🔧 Geplante Anzahl Bolzen, die du herstellen willst", value=0, step=1)
         submit_bolzen = st.form_submit_button("Bolzen-Kalkulation starten")
 
     if submit_bolzen:
-        # 3 Barren = 2 Bolzen → 1 Bolzen = 1.5 Barren
         barren_pro_bolzen = 1.5
         gesamtkosten = bolzen_menge * barren_pro_bolzen * effektiver_barrenpreis
         umsatz_aktuell = bolzen_menge * bolzen_marktpreis
