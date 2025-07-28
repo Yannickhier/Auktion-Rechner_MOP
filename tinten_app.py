@@ -147,7 +147,7 @@ with tab2:
         gewinn_wunsch_erz = round(umsatz_wunsch_erz - kosten_erz, 2)
 
         st.subheader("📦 Geistereisenbolzen Auswertung")
-st.markdown("Hier siehst du beide Varianten im Vergleich. Keine automatische Auswahl – du entscheidest!")
+        st.markdown("Hier siehst du beide Varianten im Vergleich. Keine automatische Auswahl – du entscheidest!")
         col1, col2 = st.columns(2)
 
         with col1:
