@@ -112,6 +112,14 @@ with tab1:
         st.markdown("**📉 Tauschbewertung:**")
 
 with tab2:
+    st.markdown("""
+        <style>
+            [data-testid="stDataFrame"] div[role="grid"] {
+                min-width: 100% !important;
+                overflow-x: auto;
+            }
+        </style>
+    """, unsafe_allow_html=True)
     st.title("Geistereisenbolzen-Rechner")
 
     with st.form("bolzen_form"):
