@@ -155,4 +155,4 @@ with tab2:
             'Gewinn (Marktpreis)': "{:.2f}",
             'Umsatz (Wunschpreis)': "{:.2f}",
             'Gewinn (Wunschpreis)': "{:.2f}"
-        }))
+        }), use_container_width=True)
