@@ -68,43 +68,59 @@ with tab1:
     # Daten automatisch abrufen (z. B. aus Blizzard-API) – hier nur Beispiel mit statischen Werten
     def fetch_live_prices():
         import requests
+
         client_id = "2321704124584f26b80892a37181f35b"
         client_secret = "mEaPDzpcOAADtxbiyfdVEeALXF4qmmoz"
 
-        # Token holen
-        token_resp = requests.post(
-            "https://oauth.battle.net/token",
-            data={"grant_type": "client_credentials"},
-            auth=(client_id, client_secret)
-        )
-        token = token_resp.json().get("access_token")
+        try:
+            token_resp = requests.post(
+                "https://oauth.battle.net/token",
+                data={"grant_type": "client_credentials"},
+                auth=(client_id, client_secret),
+                timeout=10
+            )
+            if token_resp.status_code != 200:
+                st.warning("⚠️ Konnte keinen Blizzard-Token erhalten.")
+                return {"traumtinte": 0.0, "sternentinte": 0.0}
 
-        # Beispielhafte Item-IDs (müssen ggf. angepasst werden)
-        item_ids = {
-            "traumtinte": 43116,  # Beispiel-ID Traumtinte
-            "sternentinte": 43122  # Beispiel-ID Sternentinte
-        }
+            token = token_resp.json().get("access_token")
+            if not token:
+                st.warning("⚠️ Kein Token enthalten in der Blizzard-Antwort.")
+                return {"traumtinte": 0.0, "sternentinte": 0.0}
 
-        realm_id = 4701  # Beispiel: Everlook EU
-        base_url = f"https://eu.api.blizzard.com/data/wow/connected-realm/{realm_id}/auctions"
-        params = {
-            "namespace": "dynamic-classic-eu",
-            "locale": "de_DE",
-            "access_token": token
-        }
+            realm_id = 4701  # Everlook EU
+            item_ids = {
+                "traumtinte": 43116,
+                "sternentinte": 43122
+            }
 
-        response = requests.get(base_url, params=params)
-        data = response.json()
-        auctions = data.get("auctions", [])
+            auction_url = f"https://eu.api.blizzard.com/data/wow/connected-realm/{realm_id}/auctions"
+            params = {
+                "namespace": "dynamic-classic-eu",
+                "locale": "de_DE",
+                "access_token": token
+            }
 
-        def get_price(item_id):
-            matching = [a for a in auctions if a.get("item", {}).get("id") == item_id and "unit_price" in a]
-            return round(min([a["unit_price"] for a in matching]) / 10000, 2) if matching else 0.0
+            auction_resp = requests.get(auction_url, params=params, timeout=15)
+            if auction_resp.status_code != 200:
+                st.warning("⚠️ Konnte keine Auktionsdaten laden.")
+                return {"traumtinte": 0.0, "sternentinte": 0.0}
 
-        return {
-            "traumtinte": get_price(item_ids["traumtinte"]),
-            "sternentinte": get_price(item_ids["sternentinte"])
-        }
+            data = auction_resp.json()
+            auctions = data.get("auctions", [])
+
+            def get_price(item_id):
+                matching = [a for a in auctions if a.get("item", {}).get("id") == item_id and "unit_price" in a]
+                return round(min(a["unit_price"] for a in matching) / 10000, 2) if matching else 0.0
+
+            return {
+                "traumtinte": get_price(item_ids["traumtinte"]),
+                "sternentinte": get_price(item_ids["sternentinte"])
+            }
+
+        except Exception as e:
+            st.error(f"❌ Fehler beim Abrufen der Blizzard-Daten: {e}")
+            return {"traumtinte": 0.0, "sternentinte": 0.0}
 
     live_preise = fetch_live_prices()
 
