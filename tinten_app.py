@@ -33,13 +33,16 @@ def gewinnrechner(
     gewinn_sternentinte_wunsch = sternentinte_umsatz_wunsch - kosten_sternentinte
 
     # Ab welchem Traumtinte-Preis lohnt sich der Tausch nicht mehr
-    break_even_traumtinte_preis = sternentinte_preis / 10
-    tausch_lohnt_aktuell = traumtinte_preis < break_even_traumtinte_preis
-    tausch_lohnt_wunsch = traumtinte_preis_wunsch < break_even_traumtinte_preis
+        break_even_traumtinte_preis_aktuell = sternentinte_preis / 10
+    break_even_traumtinte_preis_wunsch = sternentinte_preis_wunsch / 10
+    tausch_lohnt_aktuell = traumtinte_preis < break_even_traumtinte_preis_aktuell
+    tausch_lohnt_wunsch = traumtinte_preis_wunsch < break_even_traumtinte_preis_wunsch
 
     return {
         "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
         "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
+        "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
+        "Tauschgrenze Wunschpreis": round(break_even_traumtinte_preis_wunsch, 2),
         "Einkaufspreis insgesamt": einkaufspreis,
         "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
         "Zugewiesen an Sternentinte": round(kosten_sternentinte, 2),
@@ -97,7 +100,8 @@ if submitted:
     st.markdown(f"**Gewinn Sternentinte (Wunschpreis):** {result['Gewinn Sternentinte (Wunschpreis)']} G")
 
     st.markdown("---")
-    st.markdown(f"**🔁 Tausch lohnt sich, wenn Traumtinte unter:** {result['Tausch lohnt sich, wenn Traumtinte unter']} G")
+        st.markdown(f"**🔁 Tauschgrenze aktuell:** {result['Tauschgrenze aktuell']} G")
+    st.markdown(f"**🔁 Tauschgrenze bei Wunschpreis:** {result['Tauschgrenze Wunschpreis']} G")
 
     st.markdown("**📉 Tauschbewertung:**")
     st.markdown(f"Aktueller Preis ({traumtinte_preis} G): {'✅ Ja' if result['Tausch lohnt sich aktuell'] else '❌ Nein'}")
