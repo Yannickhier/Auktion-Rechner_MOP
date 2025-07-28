@@ -40,28 +40,29 @@ def gewinnrechner(
     tausch_lohnt_aktuell = traumtinte_preis < break_even_traumtinte_preis_aktuell
     tausch_lohnt_wunsch = traumtinte_preis_wunsch < break_even_traumtinte_preis_wunsch
 
-    gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
-    gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
-
     return {
-    "Gesamtgewinn (aktuelle Preise)": gesamt_gewinn_aktuell,
-    "Gesamtgewinn (Wunschpreise)": gesamt_gewinn_wunsch,
-    "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
-    "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
-    "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
-    "Tauschgrenze Wunschpreis": round(break_even_traumtinte_preis_wunsch, 2),
-    "Einkaufspreis insgesamt": einkaufspreis,
-    "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
-    "Zugewiesen an Sternentinte": round(kosten_sternentinte, 2),
-    "Traumtinte Umsatz": traumtinte_umsatz,
-    "Gewinn mit direktem Verkauf von Traumtinte": round(gewinn_traumtinte, 2),
-    "Sternentinte Umsatz": sternentinte_umsatz,
-    "Gewinn bei Herstellung und Verkauf von Sternentinte": round(gewinn_sternentinte, 2),
-    "Traumtinte Umsatz (Wunschpreis)": traumtinte_umsatz_wunsch,
-    "Gewinn Traumtinte (Wunschpreis)": round(gewinn_traumtinte_wunsch, 2),
-    "Sternentinte Umsatz (Wunschpreis)": sternentinte_umsatz_wunsch,
-    "Gewinn Sternentinte (Wunschpreis)": round(gewinn_sternentinte_wunsch, 2)
+        "Gesamtgewinn (aktuelle Preise)": gesamt_gewinn_aktuell,
+        "Gesamtgewinn (Wunschpreise)": gesamt_gewinn_wunsch,
+        "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
+        "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
+        "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
+        "Tauschgrenze Wunschpreis": round(break_even_traumtinte_preis_wunsch, 2),
+        "Einkaufspreis insgesamt": einkaufspreis,
+        "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
+        "Zugewiesen an Sternentinte": round(kosten_sternentinte, 2),
+        "Traumtinte Umsatz": traumtinte_umsatz,
+        "Gewinn mit direktem Verkauf von Traumtinte": round(gewinn_traumtinte, 2),
+        "Sternentinte Umsatz": sternentinte_umsatz,
+        "Gewinn bei Herstellung und Verkauf von Sternentinte": round(gewinn_sternentinte, 2),
+        "Traumtinte Umsatz (Wunschpreis)": traumtinte_umsatz_wunsch,
+        "Gewinn Traumtinte (Wunschpreis)": round(gewinn_traumtinte_wunsch, 2),
+        "Sternentinte Umsatz (Wunschpreis)": sternentinte_umsatz_wunsch,
+        "Gewinn Sternentinte (Wunschpreis)": round(gewinn_sternentinte_wunsch, 2)
     }
+
+
+
+
 
 
 tab1, tab2 = st.tabs(["Tinten", "Geistereisenbolzen"])
@@ -70,14 +71,14 @@ with tab1:
     st.title("Tinten-Gewinnrechner – Fokus auf Traum- & Sternentinte")
 
     with st.form("input_form"):
-    einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0)
-    traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=0, step=1)
-    sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=0, step=1)
-    traumtinte_preis = st.number_input("Aktueller Preis Traumtinte", value=0.0, format="%.2f")
-    sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=0.0, format="%.2f")
-    traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0.0, format="%.2f")
-    sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=0.0, format="%.2f")
-    submitted = st.form_submit_button("Berechnen")
+        einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0)
+        traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=0, step=1)
+        sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=0, step=1)
+        traumtinte_preis = st.number_input("Aktueller Preis Traumtinte", value=0.0, format="%.2f")
+        sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=0.0, format="%.2f")
+        traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0.0, format="%.2f")
+        sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=0.0, format="%.2f")
+        submitted = st.form_submit_button("Berechnen")
 
     if submitted:
         result = gewinnrechner(
@@ -118,6 +119,7 @@ with tab1:
         st.markdown("**📉 Tauschbewertung:**")
         st.markdown(f"Aktueller Preis ({traumtinte_preis} G): {'✅ Ja' if result['Tausch lohnt sich aktuell'] else '❌ Nein'}")
         st.markdown(f"Wunschpreis ({traumtinte_preis_wunsch} G): {'✅ Ja' if result['Tausch lohnt sich bei Wunschpreis'] else '❌ Nein'}")
+
 with tab2:
     st.title("Geistereisenbolzen Rechner")
 
