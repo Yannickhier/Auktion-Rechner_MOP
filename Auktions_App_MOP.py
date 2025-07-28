@@ -146,5 +146,46 @@ with tab1:
         st.markdown(f"**🔁 Tauschgrenze bei Wunschpreis:** {result['Tauschgrenze Wunschpreis']} G")
 
         st.markdown("**📉 Tauschbewertung:**")
+
+with tab2:
+    st.title("Geistereisenbolzen-Rechner")
+
+    with st.form("bolzen_form"):
+        bolzen_menge = st.number_input("🔩 Anzahl herstellbarer Bolzen", min_value=0, step=1)
+        barren_preis = st.number_input("🪙 Preis pro Geistereisenbarren", value=0.0, format="%.2f")
+        erz_preis = st.number_input("💎 Preis pro Geistererz", value=0.0, format="%.2f")
+        bolzen_preis_aktuell = st.number_input("📈 Marktpreis je Bolzen", value=0.0, format="%.2f")
+        bolzen_preis_wunsch = st.number_input("🌟 Wunschpreis je Bolzen", value=0.0, format="%.2f")
+        submitted_bolzen = st.form_submit_button("Berechnen")
+
+    if submitted_bolzen and bolzen_menge > 0:
+        import math
+        # Erz-Variante
+        benötigte_erz = math.ceil((bolzen_menge / 2) * 3 * 2)  # 3 Barren pro 2 Bolzen, 1 Barren = 2 Erz
+        kosten_erz = benötigte_erz * erz_preis
+        umsatz_erz_aktuell = bolzen_menge * bolzen_preis_aktuell
+        umsatz_erz_wunsch = bolzen_menge * bolzen_preis_wunsch
+        gewinn_erz_aktuell = umsatz_erz_aktuell - kosten_erz
+        gewinn_erz_wunsch = umsatz_erz_wunsch - kosten_erz
+
+        # Barren-Variante
+        benötigte_barren = math.ceil((bolzen_menge / 2) * 3)
+        kosten_barren = benötigte_barren * barren_preis
+        umsatz_barren_aktuell = bolzen_menge * bolzen_preis_aktuell
+        umsatz_barren_wunsch = bolzen_menge * bolzen_preis_wunsch
+        gewinn_barren_aktuell = umsatz_barren_aktuell - kosten_barren
+        gewinn_barren_wunsch = umsatz_barren_wunsch - kosten_barren
+
+        df = pd.DataFrame({
+            'Variante': ['🪙 Barren', '💎 Erz'],
+            'Gesamtkosten (G)': [kosten_barren, kosten_erz],
+            'Umsatz (Marktpreis)': [umsatz_barren_aktuell, umsatz_erz_aktuell],
+            'Gewinn (Marktpreis)': [gewinn_barren_aktuell, gewinn_erz_aktuell],
+            'Umsatz (Wunschpreis)': [umsatz_barren_wunsch, umsatz_erz_wunsch],
+            'Gewinn (Wunschpreis)': [gewinn_barren_wunsch, gewinn_erz_wunsch]
+        })
+
+        st.subheader("📦 Geistereisenbolzen Auswertung")
+        st.dataframe(df.style.format("{:.2f}"))
         st.markdown(f"Aktueller Preis ({traumtinte_preis} G): {'✅ Ja' if result['Tausch lohnt sich aktuell'] else '❌ Nein'}")
         st.markdown(f"Wunschpreis ({traumtinte_preis_wunsch} G): {'✅ Ja' if result['Tausch lohnt sich bei Wunschpreis'] else '❌ Nein'}")
