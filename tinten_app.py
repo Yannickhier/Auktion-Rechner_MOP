@@ -40,7 +40,7 @@ def gewinnrechner(
     tausch_lohnt_aktuell = traumtinte_preis < break_even_traumtinte_preis_aktuell
     tausch_lohnt_wunsch = traumtinte_preis_wunsch < break_even_traumtinte_preis_wunsch
 
-        gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
+    gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
     gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
 
     return {
