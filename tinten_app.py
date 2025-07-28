@@ -75,5 +75,22 @@ if submitted:
     )
 
     st.subheader("Rechenweg & Ergebnisse")
-    for key, val in result.items():
-        st.markdown(f"**{key}:** {val} G")
+
+    st.markdown("### 📊 Aktuelle Marktpreise")
+    st.markdown(f"**Einkaufspreis insgesamt:** {result['Einkaufspreis insgesamt']} G")
+    st.markdown(f"**Zugewiesen an Traumtinte:** {result['Zugewiesen an Traumtinte']} G")
+    st.markdown(f"**Zugewiesen an Sternentinte:** {result['Zugewiesen an Sternentinte']} G")
+    st.markdown(f"**Traumtinte Umsatz:** {result['Traumtinte Umsatz']} G")
+    st.markdown(f"**Gewinn mit direktem Verkauf von Traumtinte:** {result['Gewinn mit direktem Verkauf von Traumtinte']} G")
+    st.markdown(f"**Sternentinte Umsatz:** {result['Sternentinte Umsatz']} G")
+    st.markdown(f"**Gewinn bei Herstellung und Verkauf von Sternentinte:** {result['Gewinn bei Herstellung und Verkauf von Sternentinte']} G")
+
+    st.markdown("---")
+    st.markdown("### 🌟 Wunschpreise (zukünftiger Marktwert)")
+    st.markdown(f"**Traumtinte Umsatz (Wunschpreis):** {result['Traumtinte Umsatz (Wunschpreis)']} G")
+    st.markdown(f"**Gewinn Traumtinte (Wunschpreis):** {result['Gewinn Traumtinte (Wunschpreis)']} G")
+    st.markdown(f"**Sternentinte Umsatz (Wunschpreis):** {result['Sternentinte Umsatz (Wunschpreis)']} G")
+    st.markdown(f"**Gewinn Sternentinte (Wunschpreis):** {result['Gewinn Sternentinte (Wunschpreis)']} G")
+
+    st.markdown("---")
+    st.markdown(f"**🔁 Tausch lohnt sich, wenn Traumtinte unter:** {result['Tausch lohnt sich, wenn Traumtinte unter']} G")
