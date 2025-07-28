@@ -130,16 +130,21 @@ with tab2:
         barren_pro_bolzen = 1.5
         menge_erforderlich = bolzen_menge * barren_pro_bolzen
 
+        # Aufrunden der Mengen
+        import math
+        menge_erforderlich_barren = math.ceil(menge_erforderlich / 3) * 3
+        menge_erforderlich_erz = math.ceil((menge_erforderlich * 2) / 2) * 2
+
         # Variante 1: Barren
-        kosten_barren = menge_erforderlich * barren_kaufpreis
+        kosten_barren = menge_erforderlich_barren * barren_kaufpreis
         umsatz_aktuell_barren = bolzen_menge * bolzen_marktpreis
         umsatz_wunsch_barren = bolzen_menge * bolzen_wunschpreis
         gewinn_aktuell_barren = round(umsatz_aktuell_barren - kosten_barren, 2)
         gewinn_wunsch_barren = round(umsatz_wunsch_barren - kosten_barren, 2)
 
         # Variante 2: Erz
-        barren_aus_erz = menge_erforderlich
-        benoetigte_erz = barren_aus_erz * 2
+        barren_aus_erz = menge_erforderlich_erz / 2
+        benoetigte_erz = menge_erforderlich_erz
         kosten_erz = benoetigte_erz * erz_preis
         umsatz_aktuell_erz = bolzen_menge * bolzen_marktpreis
         umsatz_wunsch_erz = bolzen_menge * bolzen_wunschpreis
