@@ -10,26 +10,35 @@ def gewinnrechner(
     traumtinte_preis_wunsch: float,
     sternentinte_preis_wunsch: float
 ):
+    # Aufteilung Einkaufspreis
+    gesamte_tinten = traumtinte_menge + sternentinte_menge if (traumtinte_menge + sternentinte_menge) > 0 else 1
+    anteil_traum = traumtinte_menge / gesamte_tinten
+    anteil_stern = sternentinte_menge / gesamte_tinten
+    kosten_traumtinte = einkaufspreis * anteil_traum
+    kosten_sternentinte = einkaufspreis * anteil_stern
+
     # Rechenweg Traumtinte
     traumtinte_umsatz = traumtinte_menge * traumtinte_preis
-    gewinn_traumtinte = traumtinte_umsatz - einkaufspreis
+    gewinn_traumtinte = traumtinte_umsatz - kosten_traumtinte
 
     # Rechenweg Sternentinte
     sternentinte_umsatz = sternentinte_menge * sternentinte_preis
-    gewinn_sternentinte = sternentinte_umsatz - einkaufspreis
+    gewinn_sternentinte = sternentinte_umsatz - kosten_sternentinte
 
     # Rechenweg mit Wunschpreisen
     traumtinte_umsatz_wunsch = traumtinte_menge * traumtinte_preis_wunsch
-    gewinn_traumtinte_wunsch = traumtinte_umsatz_wunsch - einkaufspreis
+    gewinn_traumtinte_wunsch = traumtinte_umsatz_wunsch - kosten_traumtinte
 
     sternentinte_umsatz_wunsch = sternentinte_menge * sternentinte_preis_wunsch
-    gewinn_sternentinte_wunsch = sternentinte_umsatz_wunsch - einkaufspreis
+    gewinn_sternentinte_wunsch = sternentinte_umsatz_wunsch - kosten_sternentinte
 
     # Ab welchem Traumtinte-Preis lohnt sich der Tausch nicht mehr
     break_even_traumtinte_preis = sternentinte_preis / 10
 
     return {
-        "Einkaufspreis": einkaufspreis,
+        "Einkaufspreis insgesamt": einkaufspreis,
+        "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
+        "Zugewiesen an Sternentinte": round(kosten_sternentinte, 2),
         "Traumtinte Umsatz": traumtinte_umsatz,
         "Gewinn mit direktem Verkauf von Traumtinte": round(gewinn_traumtinte, 2),
         "Sternentinte Umsatz": sternentinte_umsatz,
