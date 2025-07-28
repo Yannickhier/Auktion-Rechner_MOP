@@ -148,15 +148,27 @@ with tab2:
 
         st.subheader("📦 Geistereisenbolzen Auswertung")
         st.markdown("Hier siehst du beide Varianten im Vergleich. Keine automatische Auswahl – du entscheidest!")
-        # Tabelle statt Spalten
-        import pandas as pd
-        df = pd.DataFrame({
-            'Variante': ['🪙 Barren', '💎 Erz'],
-            'Gesamtkosten (G)': [kosten_barren, kosten_erz],
-            'Umsatz (Marktpreis)': [umsatz_aktuell_barren, umsatz_aktuell_erz],
-            'Gewinn (Marktpreis)': [gewinn_aktuell_barren, gewinn_aktuell_erz],
-            'Umsatz (Wunschpreis)': [umsatz_wunsch_barren, umsatz_wunsch_erz],
-            'Gewinn (Wunschpreis)': [gewinn_wunsch_barren, gewinn_wunsch_erz]
-        })
-        df[['Gesamtkosten (G)', 'Umsatz (Marktpreis)', 'Gewinn (Marktpreis)', 'Umsatz (Wunschpreis)', 'Gewinn (Wunschpreis)']] = df[['Gesamtkosten (G)', 'Umsatz (Marktpreis)', 'Gewinn (Marktpreis)', 'Umsatz (Wunschpreis)', 'Gewinn (Wunschpreis)']].round(2)
-        st.dataframe(df, use_container_width=True)
+        # Variante 1: Barren
+        df_barren = pd.DataFrame({
+            'Art': ['🪙 Barren'],
+            'Gesamtkosten (G)': [kosten_barren],
+            'Umsatz (Marktpreis)': [umsatz_aktuell_barren],
+            'Gewinn (Marktpreis)': [gewinn_aktuell_barren],
+            'Umsatz (Wunschpreis)': [umsatz_wunsch_barren],
+            'Gewinn (Wunschpreis)': [gewinn_wunsch_barren]
+        }).round(2)
+
+        # Variante 2: Erz
+        df_erz = pd.DataFrame({
+            'Art': ['💎 Erz'],
+            'Gesamtkosten (G)': [kosten_erz],
+            'Umsatz (Marktpreis)': [umsatz_aktuell_erz],
+            'Gewinn (Marktpreis)': [gewinn_aktuell_erz],
+            'Umsatz (Wunschpreis)': [umsatz_wunsch_erz],
+            'Gewinn (Wunschpreis)': [gewinn_wunsch_erz]
+        }).round(2)
+
+        st.markdown("### 🪙 Barren")
+        st.dataframe(df_barren, use_container_width=True)
+        st.markdown("### 💎 Erz")
+        st.dataframe(df_erz, use_container_width=True)
