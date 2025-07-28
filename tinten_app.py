@@ -148,21 +148,19 @@ with tab2:
 
         st.subheader("📦 Geistereisenbolzen Auswertung")
         st.markdown("Hier siehst du beide Varianten im Vergleich. Keine automatische Auswahl – du entscheidest!")
-        col1, col2 = st.columns(2)
+        # Tabelle statt Spalten
+        import pandas as pd
+        df = pd.DataFrame({
+            'Variante': ['🪙 Barren', '💎 Erz'],
+            'Gesamtkosten (G)': [kosten_barren, kosten_erz],
+            'Umsatz (Marktpreis)': [umsatz_aktuell_barren, umsatz_aktuell_erz],
+            'Gewinn (Marktpreis)': [gewinn_aktuell_barren, gewinn_aktuell_erz],
+            'Umsatz (Wunschpreis)': [umsatz_wunsch_barren, umsatz_wunsch_erz],
+            'Gewinn (Wunschpreis)': [gewinn_wunsch_barren, gewinn_wunsch_erz]
+        })
+        df[['Gesamtkosten (G)', 'Umsatz (Marktpreis)', 'Gewinn (Marktpreis)', 'Umsatz (Wunschpreis)', 'Gewinn (Wunschpreis)']] = df[['Gesamtkosten (G)', 'Umsatz (Marktpreis)', 'Gewinn (Marktpreis)', 'Umsatz (Wunschpreis)', 'Gewinn (Wunschpreis)']].round(2)
+        st.dataframe(df, use_container_width=True)
 
-        with col1:
-            st.markdown("### 🪙 Barren-Variante")
-            st.markdown(f"**Gesamtkosten:** {kosten_barren:.2f} G")
-            st.markdown(f"**Umsatz (Marktpreis):** {umsatz_aktuell_barren:.2f} G")
-            st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_aktuell_barren} G</span>" if gewinn_aktuell_barren >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_aktuell_barren} G</span>"), unsafe_allow_html=True)
-            st.markdown(f"**Umsatz (Wunschpreis):** {umsatz_wunsch_barren:.2f} G")
-            st.markdown("**Gewinn (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_wunsch_barren} G</span>" if gewinn_wunsch_barren >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_wunsch_barren} G</span>"), unsafe_allow_html=True)
-
-        with col2:
-            st.markdown("### 💎 Erz-Variante")
-            st.markdown(f"**Benötigte Geistererz:** {benoetigte_erz:.0f}")
-            st.markdown(f"**Gesamtkosten:** {kosten_erz:.2f} G")
-            st.markdown(f"**Umsatz (Marktpreis):** {umsatz_aktuell_erz:.2f} G")
-            st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_aktuell_erz} G</span>" if gewinn_aktuell_erz >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_aktuell_erz} G</span>"), unsafe_allow_html=True)
+        
             st.markdown(f"**Umsatz (Wunschpreis):** {umsatz_wunsch_erz:.2f} G")
             st.markdown("**Gewinn (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_wunsch_erz} G</span>" if gewinn_wunsch_erz >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_wunsch_erz} G</span>"), unsafe_allow_html=True)
