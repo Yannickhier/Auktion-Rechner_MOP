@@ -19,6 +19,7 @@ def gewinnrechner(
 
     return {
         "Gewinn mit direktem Verkauf von Traumtinte": round(gewinn_traumtinte, 2),
+        "Herstellbare Sternentinten (durch Tausch)": getauschte_sternentinte,
         "Gewinn bei Tausch in Sternentinte": round(gewinn_durch_tausch, 2),
         "Tausch lohnt sich, wenn Traumtinte unter": round(break_even_traumtinte_preis, 2)
     }
@@ -42,4 +43,4 @@ if submitted:
     )
 
     for key, val in result.items():
-        st.markdown(f"**{key}:** {val} G")
+        st.markdown(f"**{key}:** {val}{' G' if isinstance(val, (int, float)) and 'Tinte' not in key else ''}")
