@@ -160,7 +160,6 @@ with tab2:
 
         with col1:
             st.markdown("### 🪙 Barren-Variante")
-            st.markdown(f"**Benötigte Barren:** {benötigte_barren}")
             st.markdown(f"**Gesamtkosten:** {kosten_barren:.2f} G")
             st.markdown(f"**Umsatz (Marktpreis):** {umsatz_barren_aktuell:.2f} G")
             st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_barren_aktuell:.2f} G</span>" if gewinn_barren_aktuell >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_barren_aktuell:.2f} G</span>"), unsafe_allow_html=True)
@@ -169,7 +168,6 @@ with tab2:
 
         with col2:
             st.markdown("### 💎 Erz-Variante")
-            st.markdown(f"**Benötigte Erze:** {benötigte_erz}")
             st.markdown(f"**Gesamtkosten:** {kosten_erz:.2f} G")
             st.markdown(f"**Umsatz (Marktpreis):** {umsatz_erz_aktuell:.2f} G")
             st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_erz_aktuell:.2f} G</span>" if gewinn_erz_aktuell >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_erz_aktuell:.2f} G</span>"), unsafe_allow_html=True)
