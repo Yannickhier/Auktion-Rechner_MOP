@@ -88,7 +88,7 @@ with tab1:
                 response = requests.get(f"{base_url}/{slug}", timeout=10)
                 if response.status_code == 200:
                     data = response.json()
-                    prices[name] = round(data.get("marketValue", 0) / 10000, 2)
+                    prices[name] = round(data.get("minBuyout", 0) / 10000, 2)
                 else:
                     prices[name] = 0.0
             except Exception as e:
