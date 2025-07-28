@@ -58,15 +58,12 @@ def gewinnrechner(
     }
 
 
-
-
 tab1, tab2 = st.tabs(["Tinten", "Geistereisenbolzen"])
 
 with tab1:
     st.title("Tinten-Gewinnrechner – Fokus auf Traum- & Sternentinte")
 
-    # Daten automatisch abrufen (z. B. aus TSM API)
-            with st.form("input_form"):
+    with st.form("input_form"):
         einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0)
         traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=0, step=1)
         sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=0, step=1)
@@ -126,7 +123,6 @@ with tab2:
         submitted_bolzen = st.form_submit_button("Berechnen")
 
     if submitted_bolzen and bolzen_menge > 0:
-        import math
         # Erz-Variante
         benötigte_erz = math.ceil((bolzen_menge / 2) * 3 * 2)  # 3 Barren pro 2 Bolzen, 1 Barren = 2 Erz
         kosten_erz = benötigte_erz * erz_preis
