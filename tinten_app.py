@@ -57,6 +57,7 @@ def gewinnrechner(
 
 
 
+
 tab1, tab2 = st.tabs(["Tinten", "Geistereisenbolzen"])
 
 with tab1:
@@ -112,6 +113,7 @@ with tab1:
         st.markdown(f"Aktueller Preis ({traumtinte_preis} G): {'✅ Ja' if result['Tausch lohnt sich aktuell'] else '❌ Nein'}")
         st.markdown(f"Wunschpreis ({traumtinte_preis_wunsch} G): {'✅ Ja' if result['Tausch lohnt sich bei Wunschpreis'] else '❌ Nein'}")
 
+
 with tab2:
     st.title("Geistereisenbolzen Rechner")
 
@@ -126,25 +128,40 @@ with tab2:
 
     if submit_bolzen:
         barren_pro_bolzen = 1.5
-        gesamtkosten = bolzen_menge * barren_pro_bolzen * effektiver_barrenpreis
-        umsatz_aktuell = bolzen_menge * bolzen_marktpreis
-        umsatz_wunsch = bolzen_menge * bolzen_wunschpreis
-        gewinn_aktuell = round(umsatz_aktuell - gesamtkosten, 2)
-        gewinn_wunsch = round(umsatz_wunsch - gesamtkosten, 2)
+        menge_erforderlich = bolzen_menge * barren_pro_bolzen
+
+        # Variante 1: Barren
+        kosten_barren = menge_erforderlich * barren_kaufpreis
+        umsatz_aktuell_barren = bolzen_menge * bolzen_marktpreis
+        umsatz_wunsch_barren = bolzen_menge * bolzen_wunschpreis
+        gewinn_aktuell_barren = round(umsatz_aktuell_barren - kosten_barren, 2)
+        gewinn_wunsch_barren = round(umsatz_wunsch_barren - kosten_barren, 2)
+
+        # Variante 2: Erz
+        barren_aus_erz = menge_erforderlich
+        benoetigte_erz = barren_aus_erz * 2
+        kosten_erz = benoetigte_erz * erz_preis
+        umsatz_aktuell_erz = bolzen_menge * bolzen_marktpreis
+        umsatz_wunsch_erz = bolzen_menge * bolzen_wunschpreis
+        gewinn_aktuell_erz = round(umsatz_aktuell_erz - kosten_erz, 2)
+        gewinn_wunsch_erz = round(umsatz_wunsch_erz - kosten_erz, 2)
 
         st.subheader("📦 Geistereisenbolzen Auswertung")
-        verwendete_quelle = "Erz" if effektiver_barrenpreis == erz_preis * 2 else "Barren"
-        menge_erforderlich = bolzen_menge * barren_pro_bolzen
-        if verwendete_quelle == "Erz":
-            rohstoff_menge = menge_erforderlich * 2  # 1 Barren = 2 Erz
-            rohstoff_text = f"{rohstoff_menge:.0f} Geistererz"
-        else:
-            rohstoff_menge = menge_erforderlich
-            rohstoff_text = f"{rohstoff_menge:.0f} Geistereisenbarren"
-        st.markdown(f"**✅ Verwendeter Rohstoff:** {verwendete_quelle}")
-        st.markdown(f"**📦 Benötigte Menge:** {rohstoff_text}")
-        st.markdown(f"**Gesamtkosten:** {gesamtkosten:.2f} G")
-        st.markdown(f"**Umsatz (Marktpreis):** {umsatz_aktuell:.2f} G")
-        st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_aktuell} G</span>" if gewinn_aktuell >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_aktuell} G</span>"), unsafe_allow_html=True)
-        st.markdown(f"**Umsatz (Wunschpreis):** {umsatz_wunsch:.2f} G")
-        st.markdown("**Gewinn (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_wunsch} G</span>" if gewinn_wunsch >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_wunsch} G</span>"), unsafe_allow_html=True)
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("### 🪙 Barren-Variante")
+            st.markdown(f"**Gesamtkosten:** {kosten_barren:.2f} G")
+            st.markdown(f"**Umsatz (Marktpreis):** {umsatz_aktuell_barren:.2f} G")
+            st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_aktuell_barren} G</span>" if gewinn_aktuell_barren >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_aktuell_barren} G</span>"), unsafe_allow_html=True)
+            st.markdown(f"**Umsatz (Wunschpreis):** {umsatz_wunsch_barren:.2f} G")
+            st.markdown("**Gewinn (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_wunsch_barren} G</span>" if gewinn_wunsch_barren >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_wunsch_barren} G</span>"), unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("### 💎 Erz-Variante")
+            st.markdown(f"**Benötigte Geistererz:** {benoetigte_erz:.0f}")
+            st.markdown(f"**Gesamtkosten:** {kosten_erz:.2f} G")
+            st.markdown(f"**Umsatz (Marktpreis):** {umsatz_aktuell_erz:.2f} G")
+            st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_aktuell_erz} G</span>" if gewinn_aktuell_erz >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_aktuell_erz} G</span>"), unsafe_allow_html=True)
+            st.markdown(f"**Umsatz (Wunschpreis):** {umsatz_wunsch_erz:.2f} G")
+            st.markdown("**Gewinn (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_wunsch_erz} G</span>" if gewinn_wunsch_erz >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_wunsch_erz} G</span>"), unsafe_allow_html=True)
