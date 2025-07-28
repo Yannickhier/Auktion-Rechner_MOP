@@ -71,7 +71,7 @@ with tab1:
 
         TSM_API_KEY = "26c121e4-aa03-4f07-a27a-9460b81d81c1"
         region = "eu"
-        realm = "everlook"
+        realm = "bcc-everlook-alliance"
         item_slugs = {
             "traumtinte": "ink-of-the-dream",
             "sternentinte": "starlight-ink",
@@ -79,13 +79,13 @@ with tab1:
             "geisterbarren": "ghost-iron-bar"
         }
 
-        headers = {"X-TOKEN": TSM_API_KEY}
-        base_url = f"https://api.tradeskillmaster.com/v1/item/{region}/{realm}"
+        # TSM Pricing API ist öffentlich, kein Header nötig
+        base_url = f"https://pricing-api.tradeskillmaster.com/region/{region}/realm/{realm}/item"
 
         prices = {}
         for name, slug in item_slugs.items():
             try:
-                response = requests.get(f"{base_url}/{slug}", headers=headers, timeout=10)
+                response = requests.get(f"{base_url}/{slug}", timeout=10)
                 if response.status_code == 200:
                     data = response.json()
                     prices[name] = round(data.get("marketValue", 0) / 10000, 2)
