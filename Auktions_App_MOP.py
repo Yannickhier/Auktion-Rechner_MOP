@@ -109,8 +109,6 @@ with tab1:
         st.markdown(f"**🔁 Tauschgrenze aktuell:** {result['Tauschgrenze aktuell']} G")
         st.markdown(f"**🔁 Tauschgrenze bei Wunschpreis:** {result['Tauschgrenze Wunschpreis']} G")
 
-        st.markdown("**📉 Tauschbewertung:**")
-
 with tab2:
     st.markdown("""
         <style>
