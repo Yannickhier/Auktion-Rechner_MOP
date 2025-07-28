@@ -45,13 +45,13 @@ def gewinnrechner(
 st.title("Tinten-Gewinnrechner – Fokus auf Traum- & Sternentinte")
 
 with st.form("input_form"):
-    einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=12536.0)
-    traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=596, step=1)
-    sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=61, step=1)
-    traumtinte_preis = st.number_input("Aktueller Preis Traumtinte", value=13.88)
-    sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=120.0)
-    traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=18.5)
-    sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=185.0)
+    einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0)
+    traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=0, step=1)
+    sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=0, step=1)
+    traumtinte_preis = st.number_input("Aktueller Preis Traumtinte", value=0)
+    sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=0)
+    traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0)
+    sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=0)
     submitted = st.form_submit_button("Berechnen")
 
 if submitted:
