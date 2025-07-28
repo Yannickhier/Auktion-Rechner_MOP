@@ -1,5 +1,6 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def gewinnrechner(
@@ -11,7 +12,9 @@ def gewinnrechner(
     traumtinte_preis: float,
     sternentinte_preis: float,
     traumtinte_preis_vortag: float,
-    sternentinte_preis_vortag: float
+    sternentinte_preis_vortag: float,
+    traumtinte_preis_geplant: float,
+    sternentinte_preis_geplant: float
 ):
     # Direktverkauf Pigmente
     wert_pigmente = schattenpigment_menge * schattenpigment_preis + mystisches_pigment_menge * mystisches_pigment_preis
@@ -24,6 +27,8 @@ def gewinnrechner(
     wert_traumtinte = traumtinte_menge * traumtinte_preis
     wert_sternentinte = sternentinte_menge * sternentinte_preis
     gesamtwert_tinten = wert_traumtinte + wert_sternentinte
+    gewinn_traumtinte = wert_traumtinte - einkaufspreis
+    gewinn_sternentinte = wert_sternentinte - einkaufspreis
     gewinn_tinten = gesamtwert_tinten - einkaufspreis
 
     # Tausch Traumtinte -> Sternentinte
@@ -34,6 +39,13 @@ def gewinnrechner(
     wert_rest_traumtinte = rest_traumtinte_nach_tausch * traumtinte_preis
     gesamtwert_tausch = wert_neue_sternentinten + wert_rest_traumtinte
     gewinn_tausch = gesamtwert_tausch - einkaufspreis
+
+    # Prognose mit geplanten Preisen
+    wert_geplant = traumtinte_menge * traumtinte_preis_geplant + sternentinte_menge * sternentinte_preis_geplant
+    gewinn_geplant = wert_geplant - einkaufspreis
+
+    # Empfehlung bei schlechtem Sternentinte-Preis
+    empfehlung_tausch = gewinn_tausch > gewinn_tinten
 
     # Szenario: Markt normalisiert sich
     wert_traumtinte_vortag = traumtinte_menge * traumtinte_preis_vortag
@@ -49,13 +61,17 @@ def gewinnrechner(
 
     return {
         "Direktverkauf Pigmente": round(gewinn_pigmente, 2),
-        "Tintenherstellung (heute)": round(gewinn_tinten, 2),
+        "Nur Traumtinte": round(gewinn_traumtinte, 2),
+        "Nur Sternentinte": round(gewinn_sternentinte, 2),
+        "Tintenherstellung (gesamt)": round(gewinn_tinten, 2),
         "Tausch zu Sternentinte": round(gewinn_tausch, 2),
         "Marktpreis normalisiert": round(gewinn_vortag, 2),
+        "Prognose mit geplanten Preisen": round(gewinn_geplant, 2),
         "Break-even Schattenpigmente": round(schattenpigment_break_even, 2),
         "Break-even Mystische Pigmente": round(mystisches_pigment_break_even, 2),
         "Break-even Traumtinte": round(traumtinte_break_even, 2),
-        "Break-even Sternentinte": round(sternentinte_break_even, 2)
+        "Break-even Sternentinte": round(sternentinte_break_even, 2),
+        "Empfehlung Tausch bei schlechtem Sternentintenpreis": empfehlung_tausch
     }
 
 
@@ -72,6 +88,8 @@ with st.form("input_form"):
     sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=120.0)
     traumtinte_preis_vortag = st.number_input("Preis Traumtinte (Vortag)", value=18.5)
     sternentinte_preis_vortag = st.number_input("Preis Sternentinte (Vortag)", value=185.0)
+    traumtinte_preis_geplant = st.number_input("Geplanter Verkaufspreis Traumtinte", value=17.5)
+    sternentinte_preis_geplant = st.number_input("Geplanter Verkaufspreis Sternentinte", value=150.0)
     submitted = st.form_submit_button("Berechnen")
 
 if submitted:
@@ -84,23 +102,30 @@ if submitted:
         traumtinte_preis,
         sternentinte_preis,
         traumtinte_preis_vortag,
-        sternentinte_preis_vortag
+        sternentinte_preis_vortag,
+        traumtinte_preis_geplant,
+        sternentinte_preis_geplant
     )
 
     st.subheader("Ergebnisse")
     for szenario, gewinn in result.items():
         if "Break-even" in szenario:
             st.info(f"{szenario}: {gewinn} Stück nötig für 0 G Gewinn")
+        elif "Empfehlung" in szenario:
+            if result[szenario]:
+                st.warning("Sternentintenpreis ist niedrig. Ein Tausch von Traumtinte in Sternentinte ist aktuell sinnvoll.")
+            else:
+                st.info("Sternentintenpreis ist ausreichend. Kein Tausch nötig.")
         else:
             color = "green" if gewinn > 0 else ("orange" if gewinn == 0 else "red")
             st.markdown(f"<span style='color:{color}'>{szenario}: {gewinn} G Gewinn</span>", unsafe_allow_html=True)
 
-    # Diagramm
     st.subheader("Gewinnvergleich")
     fig, ax = plt.subplots()
-    labels = [k for k in result if "Break-even" not in k]
+    labels = [k for k in result if "Break-even" not in k and "Empfehlung" not in k]
     values = [result[k] for k in labels]
-    ax.bar(labels, values)
+    colors = ["green" if v > 0 else ("orange" if v == 0 else "red") for v in values]
+    bars = ax.bar(labels, values, color=colors)
     ax.set_ylabel("Gewinn in Gold")
     ax.set_title("Vergleich der Verkaufsmöglichkeiten")
     plt.xticks(rotation=15)
