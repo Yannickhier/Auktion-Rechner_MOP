@@ -43,24 +43,24 @@ def gewinnrechner(
     gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
     gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
 
-        return {
-        "Gesamtgewinn (aktuelle Preise)": gesamt_gewinn_aktuell,
-        "Gesamtgewinn (Wunschpreise)": gesamt_gewinn_wunsch,
-        "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
-        "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
-        "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
-        "Tauschgrenze Wunschpreis": round(break_even_traumtinte_preis_wunsch, 2),
-        "Einkaufspreis insgesamt": einkaufspreis,
-        "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
-        "Zugewiesen an Sternentinte": round(kosten_sternentinte, 2),
-        "Traumtinte Umsatz": traumtinte_umsatz,
-        "Gewinn mit direktem Verkauf von Traumtinte": round(gewinn_traumtinte, 2),
-        "Sternentinte Umsatz": sternentinte_umsatz,
-        "Gewinn bei Herstellung und Verkauf von Sternentinte": round(gewinn_sternentinte, 2),
-        "Traumtinte Umsatz (Wunschpreis)": traumtinte_umsatz_wunsch,
-        "Gewinn Traumtinte (Wunschpreis)": round(gewinn_traumtinte_wunsch, 2),
-        "Sternentinte Umsatz (Wunschpreis)": sternentinte_umsatz_wunsch,
-        "Gewinn Sternentinte (Wunschpreis)": round(gewinn_sternentinte_wunsch, 2)
+    return {
+    "Gesamtgewinn (aktuelle Preise)": gesamt_gewinn_aktuell,
+    "Gesamtgewinn (Wunschpreise)": gesamt_gewinn_wunsch,
+    "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
+    "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
+    "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
+    "Tauschgrenze Wunschpreis": round(break_even_traumtinte_preis_wunsch, 2),
+    "Einkaufspreis insgesamt": einkaufspreis,
+    "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
+    "Zugewiesen an Sternentinte": round(kosten_sternentinte, 2),
+    "Traumtinte Umsatz": traumtinte_umsatz,
+    "Gewinn mit direktem Verkauf von Traumtinte": round(gewinn_traumtinte, 2),
+    "Sternentinte Umsatz": sternentinte_umsatz,
+    "Gewinn bei Herstellung und Verkauf von Sternentinte": round(gewinn_sternentinte, 2),
+    "Traumtinte Umsatz (Wunschpreis)": traumtinte_umsatz_wunsch,
+    "Gewinn Traumtinte (Wunschpreis)": round(gewinn_traumtinte_wunsch, 2),
+    "Sternentinte Umsatz (Wunschpreis)": sternentinte_umsatz_wunsch,
+    "Gewinn Sternentinte (Wunschpreis)": round(gewinn_sternentinte_wunsch, 2)
     }
 
 
