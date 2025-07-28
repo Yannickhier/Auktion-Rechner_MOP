@@ -33,6 +33,8 @@ def gewinnrechner(
     gewinn_sternentinte_wunsch = sternentinte_umsatz_wunsch - kosten_sternentinte
 
     # Ab welchem Traumtinte-Preis lohnt sich der Tausch nicht mehr
+    gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
+    gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
     break_even_traumtinte_preis_aktuell = sternentinte_preis / 10
     break_even_traumtinte_preis_wunsch = sternentinte_preis_wunsch / 10
     tausch_lohnt_aktuell = traumtinte_preis < break_even_traumtinte_preis_aktuell
