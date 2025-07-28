@@ -66,47 +66,14 @@ with tab1:
     st.title("Tinten-Gewinnrechner – Fokus auf Traum- & Sternentinte")
 
     # Daten automatisch abrufen (z. B. aus TSM API)
-    def fetch_live_prices():
-        import requests
-
-        TSM_API_KEY = "26c121e4-aa03-4f07-a27a-9460b81d81c1"
-        region = "eu"
-        realm = "bcc-everlook-alliance"
-        item_slugs = {
-            "traumtinte": "ink-of-the-dream",
-            "sternentinte": "starlight-ink",
-            "geistererz": "ghost-iron-ore",
-            "geisterbarren": "ghost-iron-bar"
-        }
-
-        # TSM Pricing API ist öffentlich, kein Header nötig
-        base_url = f"https://pricing-api.tradeskillmaster.com/region/{region}/realm/{realm}/item"
-
-        prices = {}
-        for name, slug in item_slugs.items():
-            try:
-                response = requests.get(f"{base_url}/{slug}", timeout=10)
-                if response.status_code == 200:
-                    data = response.json()
-                    prices[name] = round(data.get("minBuyout", 0) / 10000, 2)
-                else:
-                    prices[name] = 0.0
-            except Exception as e:
-                st.warning(f"⚠️ Fehler beim Abrufen von {name}: {e}")
-                prices[name] = 0.0
-
-        return prices
-
-    live_preise = fetch_live_prices()
-
-    with st.form("input_form"):
+            with st.form("input_form"):
         einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0)
         traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=0, step=1)
         sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=0, step=1)
-        traumtinte_preis = st.number_input("Aktueller Preis Traumtinte", value=live_preise["traumtinte"], format="%.2f")
-        sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=live_preise["sternentinte"], format="%.2f")
-        traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=live_preise["traumtinte"], format="%.2f")
-        sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=live_preise["sternentinte"], format="%.2f")
+        traumtinte_preis = st.number_input("Aktueller Preis Traumtinte", value=0.0, format="%.2f")
+        sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=0.0, format="%.2f")
+        traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0.0, format="%.2f")
+        sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=0.0, format="%.2f")
         submitted = st.form_submit_button("Berechnen")
 
     if submitted:
