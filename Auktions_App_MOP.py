@@ -186,4 +186,10 @@ with tab2:
         })
 
         st.subheader("📦 Geistereisenbolzen Auswertung")
-        st.dataframe(df.style.format("{:.2f}"))
+        st.dataframe(df.style.format({
+            'Gesamtkosten (G)': "{:.2f}",
+            'Umsatz (Marktpreis)': "{:.2f}",
+            'Gewinn (Marktpreis)': "{:.2f}",
+            'Umsatz (Wunschpreis)': "{:.2f}",
+            'Gewinn (Wunschpreis)': "{:.2f}"
+        }))
