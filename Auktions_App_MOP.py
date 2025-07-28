@@ -65,12 +65,55 @@ tab1, tab2 = st.tabs(["Tinten", "Geistereisenbolzen"])
 with tab1:
     st.title("Tinten-Gewinnrechner – Fokus auf Traum- & Sternentinte")
 
+    # Daten automatisch abrufen (z. B. aus Blizzard-API) – hier nur Beispiel mit statischen Werten
+    def fetch_live_prices():
+        import requests
+        client_id = "2321704124584f26b80892a37181f35b"
+        client_secret = "mEaPDzpcOAADtxbiyfdVEeALXF4qmmoz"
+
+        # Token holen
+        token_resp = requests.post(
+            "https://oauth.battle.net/token",
+            data={"grant_type": "client_credentials"},
+            auth=(client_id, client_secret)
+        )
+        token = token_resp.json().get("access_token")
+
+        # Beispielhafte Item-IDs (müssen ggf. angepasst werden)
+        item_ids = {
+            "traumtinte": 43116,  # Beispiel-ID Traumtinte
+            "sternentinte": 43122  # Beispiel-ID Sternentinte
+        }
+
+        realm_id = 4701  # Beispiel: Everlook EU
+        base_url = f"https://eu.api.blizzard.com/data/wow/connected-realm/{realm_id}/auctions"
+        params = {
+            "namespace": "dynamic-classic-eu",
+            "locale": "de_DE",
+            "access_token": token
+        }
+
+        response = requests.get(base_url, params=params)
+        data = response.json()
+        auctions = data.get("auctions", [])
+
+        def get_price(item_id):
+            matching = [a for a in auctions if a.get("item", {}).get("id") == item_id and "unit_price" in a]
+            return round(min([a["unit_price"] for a in matching]) / 10000, 2) if matching else 0.0
+
+        return {
+            "traumtinte": get_price(item_ids["traumtinte"]),
+            "sternentinte": get_price(item_ids["sternentinte"])
+        }
+
+    live_preise = fetch_live_prices()
+
     with st.form("input_form"):
         einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0)
         traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=0, step=1)
         sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=0, step=1)
-        traumtinte_preis = st.number_input("Aktueller Preis Traumtinte", value=0.0, format="%.2f")
-        sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=0.0, format="%.2f")
+                traumtinte_preis = st.number_input("Aktueller Preis Traumtinte", value=live_preise["traumtinte"], format="%.2f")
+                sternentinte_preis = st.number_input("Aktueller Preis Sternentinte", value=live_preise["sternentinte"], format="%.2f")
         traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0.0, format="%.2f")
         sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=0.0, format="%.2f")
         submitted = st.form_submit_button("Berechnen")
