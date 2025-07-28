@@ -133,6 +133,16 @@ with tab2:
         gewinn_wunsch = round(umsatz_wunsch - gesamtkosten, 2)
 
         st.subheader("📦 Geistereisenbolzen Auswertung")
+        verwendete_quelle = "Erz" if effektiver_barrenpreis == erz_preis * 2 else "Barren"
+        menge_erforderlich = bolzen_menge * barren_pro_bolzen
+        if verwendete_quelle == "Erz":
+            rohstoff_menge = menge_erforderlich * 2  # 1 Barren = 2 Erz
+            rohstoff_text = f"{rohstoff_menge:.0f} Geistererz"
+        else:
+            rohstoff_menge = menge_erforderlich
+            rohstoff_text = f"{rohstoff_menge:.0f} Geistereisenbarren"
+        st.markdown(f"**✅ Verwendeter Rohstoff:** {verwendete_quelle}")
+        st.markdown(f"**📦 Benötigte Menge:** {rohstoff_text}")
         st.markdown(f"**Gesamtkosten:** {gesamtkosten:.2f} G")
         st.markdown(f"**Umsatz (Marktpreis):** {umsatz_aktuell:.2f} G")
         st.markdown("**Gewinn (Marktpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_aktuell} G</span>" if gewinn_aktuell >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_aktuell} G</span>"), unsafe_allow_html=True)
