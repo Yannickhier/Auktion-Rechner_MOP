@@ -37,7 +37,7 @@ def gewinnrechner(
     tausch_lohnt_aktuell = traumtinte_preis < break_even_traumtinte_preis
     tausch_lohnt_wunsch = traumtinte_preis_wunsch < break_even_traumtinte_preis
 
-        return {
+    return {
         "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
         "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
         "Einkaufspreis insgesamt": einkaufspreis,
