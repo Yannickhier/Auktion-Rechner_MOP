@@ -123,6 +123,22 @@ with tab1:
 with tab2:
     st.title("Geistereisenbolzen Rechner")
 
+    st.markdown("---")
+    st.subheader("🪨 Geistererz-Kalkulation")
+    with st.form("erz_form"):
+        erz_preis = st.number_input("💎 Aktueller Preis pro Geistererz", value=0.0, format="%.2f")
+        barren_kaufpreis = st.number_input("🪙 Kaufpreis pro Geistereisenbarren", value=0.0, format="%.2f")
+        submit_erz = st.form_submit_button("Erz-Bewertung starten")
+
+    if submit_erz:
+        max_erz_preis = barren_kaufpreis / 2
+        tausch_empfehlung = erz_preis <= max_erz_preis
+
+        st.markdown(f"**Maximalpreis für Geistererz:** {max_erz_preis:.2f} G")
+        st.markdown("**Erz kaufen oder Barren kaufen?** " + ("<span style='color:green;font-weight:bold;'>Erz lohnt sich ✅</span>" if tausch_empfehlung else "<span style='color:red;font-weight:bold;'>Lieber Barren kaufen ❌</span>"), unsafe_allow_html=True)
+
+    st.markdown("---")
+
     with st.form("bolzen_form"):
         barren_einkaufspreis = st.number_input("🛒 Einkaufspreis pro Geistereisenbarren", value=0.0, format="%.2f")
         bolzen_marktpreis = st.number_input("💰 Aktueller Verkaufspreis pro Bolzen", value=0.0, format="%.2f")
