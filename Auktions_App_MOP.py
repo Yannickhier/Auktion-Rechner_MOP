@@ -132,7 +132,7 @@ with tab2:
 
     if submitted_bolzen and bolzen_menge > 0:
         # Erz-Variante
-        benötigte_erz = math.ceil((bolzen_menge / 2) * 3 * 2)  # 3 Barren pro 2 Bolzen, 1 Barren = 2 Erz
+        benötigte_erz = math.ceil(((bolzen_menge / 2) * 3 * 2) / 2) * 2  # 3 Barren pro 2 Bolzen, 1 Barren = 2 Erz
         kosten_erz = benötigte_erz * erz_preis
         umsatz_erz_aktuell = bolzen_menge * bolzen_preis_aktuell
         umsatz_erz_wunsch = bolzen_menge * bolzen_preis_wunsch
@@ -140,7 +140,7 @@ with tab2:
         gewinn_erz_wunsch = umsatz_erz_wunsch - kosten_erz
 
         # Barren-Variante
-        benötigte_barren = math.ceil((bolzen_menge / 2) * 3)
+        benötigte_barren = math.ceil(((bolzen_menge / 2) * 3) / 3) * 3
         kosten_barren = benötigte_barren * barren_preis
         umsatz_barren_aktuell = bolzen_menge * bolzen_preis_aktuell
         umsatz_barren_wunsch = bolzen_menge * bolzen_preis_wunsch
