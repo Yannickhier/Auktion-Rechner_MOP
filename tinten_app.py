@@ -160,7 +160,3 @@ with tab2:
         })
         df[['Gesamtkosten (G)', 'Umsatz (Marktpreis)', 'Gewinn (Marktpreis)', 'Umsatz (Wunschpreis)', 'Gewinn (Wunschpreis)']] = df[['Gesamtkosten (G)', 'Umsatz (Marktpreis)', 'Gewinn (Marktpreis)', 'Umsatz (Wunschpreis)', 'Gewinn (Wunschpreis)']].round(2)
         st.dataframe(df, use_container_width=True)
-
-        
-            st.markdown(f"**Umsatz (Wunschpreis):** {umsatz_wunsch_erz:.2f} G")
-            st.markdown("**Gewinn (Wunschpreis):** " + (f"<span style='color:green;font-weight:bold;'>{gewinn_wunsch_erz} G</span>" if gewinn_wunsch_erz >= 0 else f"<span style='color:red;font-weight:bold;'>{gewinn_wunsch_erz} G</span>"), unsafe_allow_html=True)
