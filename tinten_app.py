@@ -43,7 +43,9 @@ def gewinnrechner(
     gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
     gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
 
-    return {
+        return {
+        "Gesamtgewinn (aktuelle Preise)": gesamt_gewinn_aktuell,
+        "Gesamtgewinn (Wunschpreise)": gesamt_gewinn_wunsch,
         "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
         "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
         "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
