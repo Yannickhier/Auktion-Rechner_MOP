@@ -7,8 +7,6 @@ def gewinnrechner(
     einkaufspreis: float,
     traumtinte_menge: int,
     sternentinte_menge: int,
-    traumtinte_preis: float,
-    sternentinte_preis: float,
     traumtinte_preis_wunsch: float,
     sternentinte_preis_wunsch: float
 ):
@@ -18,31 +16,18 @@ def gewinnrechner(
     kosten_traumtinte = einkaufspreis * anteil_traum
     kosten_sternentinte = einkaufspreis * anteil_stern
 
-    traumtinte_umsatz = traumtinte_menge * traumtinte_preis
-    gewinn_traumtinte = traumtinte_umsatz - kosten_traumtinte
-
-    sternentinte_umsatz = sternentinte_menge * sternentinte_preis
-    gewinn_sternentinte = sternentinte_umsatz - kosten_sternentinte
-
     traumtinte_umsatz_wunsch = traumtinte_menge * traumtinte_preis_wunsch
     gewinn_traumtinte_wunsch = traumtinte_umsatz_wunsch - kosten_traumtinte
 
     sternentinte_umsatz_wunsch = sternentinte_menge * sternentinte_preis_wunsch
     gewinn_sternentinte_wunsch = sternentinte_umsatz_wunsch - kosten_sternentinte
 
-    gesamt_gewinn_aktuell = round(gewinn_traumtinte + gewinn_sternentinte, 2)
     gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
-    break_even_traumtinte_preis_aktuell = sternentinte_preis / 10
-    break_even_traumtinte_preis_wunsch = sternentinte_preis_wunsch / 10
-    tausch_lohnt_aktuell = traumtinte_preis < break_even_traumtinte_preis_aktuell
     tausch_lohnt_wunsch = traumtinte_preis_wunsch < break_even_traumtinte_preis_wunsch
 
     return {
-        "Gesamtgewinn (aktuelle Preise)": gesamt_gewinn_aktuell,
         "Gesamtgewinn (Wunschpreise)": gesamt_gewinn_wunsch,
-        "Tausch lohnt sich aktuell": tausch_lohnt_aktuell,
         "Tausch lohnt sich bei Wunschpreis": tausch_lohnt_wunsch,
-        "Tauschgrenze aktuell": round(break_even_traumtinte_preis_aktuell, 2),
         "Tauschgrenze Wunschpreis": round(break_even_traumtinte_preis_wunsch, 2),
         "Einkaufspreis insgesamt": einkaufspreis,
         "Zugewiesen an Traumtinte": round(kosten_traumtinte, 2),
@@ -67,7 +52,7 @@ with tab1:
         einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0)
         traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=0, step=1)
         sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=0, step=1)
-        traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0.0, format="%.2f")
+                        traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0.0, format="%.2f")
         sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=0.0, format="%.2f")
         submitted = st.form_submit_button("Berechnen")
 
@@ -76,7 +61,7 @@ with tab1:
             einkaufspreis,
             traumtinte_menge,
             sternentinte_menge,
-                        traumtinte_preis_wunsch,
+            traumtinte_preis_wunsch,
             sternentinte_preis_wunsch
         )
 
