@@ -1,6 +1,5 @@
-        st.markdown(f"**🔁 Tauschgrenze bei Wunschpreis:** {result['Tauschgrenze Wunschpreis']} G")
-
-        st.markdown("**📉 Tauschbewertung:**")
+st.markdown(f"**🔁 Tauschgrenze bei Wunschpreis:** {result['Tauschgrenze Wunschpreis']} G")
+st.markdown("**📉 Tauschbewertung:**")
 
 with tab2:
     st.markdown("""
