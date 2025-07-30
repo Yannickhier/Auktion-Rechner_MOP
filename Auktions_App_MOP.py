@@ -65,7 +65,7 @@ with tab1:
 
         st.subheader("📊 Auswertung")
 
-        st.markdown(f"**💰 Gesamtgewinn (Wunschpreise):** ")
+        st.markdown(f"**💰 Gesamtgewinn:** ")
         if result['Gesamtgewinn (Wunschpreise)'] >= 0:
             st.markdown(f"<span style='color:green;font-weight:bold;'>{result['Gesamtgewinn (Wunschpreise)']} G</span>", unsafe_allow_html=True)
         else:
