@@ -52,7 +52,7 @@ with tab1:
         einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0)
         traumtinte_menge = st.number_input("Herstellbare Traumtinten", value=0, step=1)
         sternentinte_menge = st.number_input("Herstellbare Sternentinten", value=0, step=1)
-                        traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0.0, format="%.2f")
+        traumtinte_preis_wunsch = st.number_input("Wunschpreis Traumtinte", value=0.0, format="%.2f")
         sternentinte_preis_wunsch = st.number_input("Wunschpreis Sternentinte", value=0.0, format="%.2f")
         submitted = st.form_submit_button("Berechnen")
 
