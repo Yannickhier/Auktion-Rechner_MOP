@@ -23,6 +23,7 @@ def gewinnrechner(
     gewinn_sternentinte_wunsch = sternentinte_umsatz_wunsch - kosten_sternentinte
 
     gesamt_gewinn_wunsch = round(gewinn_traumtinte_wunsch + gewinn_sternentinte_wunsch, 2)
+    break_even_traumtinte_preis_wunsch = sternentinte_preis_wunsch / 10
     tausch_lohnt_wunsch = traumtinte_preis_wunsch < break_even_traumtinte_preis_wunsch
 
     return {
