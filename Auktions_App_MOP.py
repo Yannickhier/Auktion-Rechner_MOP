@@ -40,52 +40,56 @@ def gewinnrechner(
     }
 
 
-st.title("🧪 Tinten Gewinnrechner")
+st.set_page_config(layout="wide")
+tab1, tab2 = st.tabs(["🧪 Tinten Gewinnrechner", "🔩 Geistereisenbolzen"])
 
-with st.form("input_form"):
-    einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0, format="%.2f")
-    traumtinte_menge = st.number_input("Herstellbare Traumtinten", min_value=0, value=0)
-    sternentinte_menge = st.number_input("Herstellbare Sternentinten", min_value=0, value=0)
-    traumtinte_preis_wunsch = st.number_input("Wunschpreis pro Traumtinte", value=0.0, format="%.2f")
-    sternentinte_preis_wunsch = st.number_input("Wunschpreis pro Sternentinte", value=0.0, format="%.2f")
-    submitted = st.form_submit_button("Berechne Gewinn")
+with tab1:
+    st.header("🧪 Tinten Gewinnrechner")
 
-if submitted:
-    result = gewinnrechner(
-        einkaufspreis,
-        traumtinte_menge,
-        sternentinte_menge,
-        traumtinte_preis_wunsch,
-        sternentinte_preis_wunsch
-    )
+    with st.form("input_form"):
+        einkaufspreis = st.number_input("Gesamtkosten für Blumen", value=0.0, format="%.2f")
+        traumtinte_menge = st.number_input("Herstellbare Traumtinten", min_value=0, value=0)
+        sternentinte_menge = st.number_input("Herstellbare Sternentinten", min_value=0, value=0)
+        traumtinte_preis_wunsch = st.number_input("Wunschpreis pro Traumtinte", value=0.0, format="%.2f")
+        sternentinte_preis_wunsch = st.number_input("Wunschpreis pro Sternentinte", value=0.0, format="%.2f")
+        submitted = st.form_submit_button("Berechne Gewinn")
 
-    st.subheader("📊 Auswertung")
+    if submitted:
+        result = gewinnrechner(
+            einkaufspreis,
+            traumtinte_menge,
+            sternentinte_menge,
+            traumtinte_preis_wunsch,
+            sternentinte_preis_wunsch
+        )
 
-    st.markdown(f"**💰 Gesamtgewinn (Wunschpreise):** ")
-    if result['Gesamtgewinn (Wunschpreise)'] >= 0:
-        st.markdown(f"<span style='color:green;font-weight:bold;'>{result['Gesamtgewinn (Wunschpreise)']} G</span>", unsafe_allow_html=True)
-    else:
-        st.markdown(f"<span style='color:red;font-weight:bold;'>{result['Gesamtgewinn (Wunschpreise)']} G</span>", unsafe_allow_html=True)
+        st.subheader("📊 Auswertung")
 
-    st.markdown(f"**🔁 Tauschgrenze Wunschpreis:** {result['Tauschgrenze Wunschpreis']} G")
-    tausch_text = "✅ **Tausch lohnt sich**" if result['Tausch lohnt sich bei Wunschpreis'] else "❌ **Tausch lohnt sich nicht**"
-    st.markdown(tausch_text)
+        st.markdown(f"**💰 Gesamtgewinn (Wunschpreise):** ")
+        if result['Gesamtgewinn (Wunschpreise)'] >= 0:
+            st.markdown(f"<span style='color:green;font-weight:bold;'>{result['Gesamtgewinn (Wunschpreise)']} G</span>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<span style='color:red;font-weight:bold;'>{result['Gesamtgewinn (Wunschpreise)']} G</span>", unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.markdown(f"**📦 Einkaufspreis insgesamt:** {result['Einkaufspreis insgesamt']} G")
-    st.markdown(f"**🔹 Zugewiesen an Traumtinte:** {result['Zugewiesen an Traumtinte']} G")
-    st.markdown(f"**🔸 Zugewiesen an Sternentinte:** {result['Zugewiesen an Sternentinte']} G")
+        st.markdown(f"**🔁 Tauschgrenze Wunschpreis:** {result['Tauschgrenze Wunschpreis']} G")
+        tausch_text = "✅ **Tausch lohnt sich**" if result['Tausch lohnt sich bei Wunschpreis'] else "❌ **Tausch lohnt sich nicht**"
+        st.markdown(tausch_text)
 
-    st.markdown("---")
-    st.markdown(f"**🔹 Traumtinte Umsatz (Wunschpreis):** {result['Traumtinte Umsatz (Wunschpreis)']} G")
-    st.markdown(f"**🔹 Gewinn Traumtinte (Wunschpreis):** {result['Gewinn Traumtinte (Wunschpreis)']} G")
+        st.markdown("---")
+        st.markdown(f"**📦 Einkaufspreis insgesamt:** {result['Einkaufspreis insgesamt']} G")
+        st.markdown(f"**🔹 Zugewiesen an Traumtinte:** {result['Zugewiesen an Traumtinte']} G")
+        st.markdown(f"**🔸 Zugewiesen an Sternentinte:** {result['Zugewiesen an Sternentinte']} G")
 
-    st.markdown(f"**🔸 Sternentinte Umsatz (Wunschpreis):** {result['Sternentinte Umsatz (Wunschpreis)']} G")
-    st.markdown(f"**🔸 Gewinn Sternentinte (Wunschpreis):** {result['Gewinn Sternentinte (Wunschpreis)']} G")
+        st.markdown("---")
+        st.markdown(f"**🔹 Traumtinte Umsatz (Wunschpreis):** {result['Traumtinte Umsatz (Wunschpreis)']} G")
+        st.markdown(f"**🔹 Gewinn Traumtinte (Wunschpreis):** {result['Gewinn Traumtinte (Wunschpreis)']} G")
+
+        st.markdown(f"**🔸 Sternentinte Umsatz (Wunschpreis):** {result['Sternentinte Umsatz (Wunschpreis)']} G")
+        st.markdown(f"**🔸 Gewinn Sternentinte (Wunschpreis):** {result['Gewinn Sternentinte (Wunschpreis)']} G")
 
 
-# Geisterbolzen-Tab wieder einfügen
-with st.expander("🔩 Geistereisenbolzen-Auswertung"):
+with tab2:
+    st.header("🔩 Geistereisenbolzen-Auswertung")
     with st.form("bolzen_form"):
         bolzen_menge = st.number_input("🔩 Anzahl herstellbarer Bolzen", min_value=0, step=1)
         barren_preis = st.number_input("🪙 Preis pro Geistereisenbarren", value=0.0, format="%.2f")
